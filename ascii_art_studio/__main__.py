@@ -3,14 +3,9 @@
 Main entry point for the ASCII Art Studio application.
 """
 
-
-def main():
-    """Main entry point for the ASCII Art Studio application."""
-    print("ASCII Art Studio")
-    print("----------------")
-    print("This is a placeholder. The full application is under development.")
-    # This will be replaced with actual functionality from Step 7 onwards
+import sys
+from ascii_art_studio.ascii_art_studio import main
 
 
 if __name__ == "__main__":
-    main() 
+    sys.exit(main()) 
