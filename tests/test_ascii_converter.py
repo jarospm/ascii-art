@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 """
-Test script for the ASCII converter.
+Test file for the ASCII converter module of ASCII Art Studio.
 
 This script tests the functionality of the AsciiConverter class.
 """
 
-from image_processor import ImageProcessor
-from ascii_converter import AsciiConverter
+import unittest
+from ascii_art_studio.core.image_processor import ImageProcessor
+from ascii_art_studio.core.ascii_converter import AsciiConverter
 
 def main():
     """Test the ASCII converter functionality."""

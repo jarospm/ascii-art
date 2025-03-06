@@ -1,0 +1,2 @@
+[console_scripts]
+ascii-art-studio = ascii_art_studio.__main__:main
