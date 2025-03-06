@@ -4,8 +4,7 @@ As a user, I can enter the commands listed below to work with ASCII art.
 
 "load filename":
 - Load the image file *filename* and set it as the "current image".
-- If an error occurs during loading (e.g., the file does not exist, incorrect filename, unreadable file, wrong format, etc.), an error message
-should be displayed.
+- If an error occurs during loading (e.g., the file does not exist, incorrect filename, unreadable file, wrong format, etc.), an error message should be displayed.
 
 "render":
 - Take the current image and print ASCII art representing the image.
