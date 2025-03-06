@@ -6,5 +6,6 @@ entered by the user.
 """
 
 from .command_parser import CommandParser
+from .command_executor import CommandExecutor
 
-__all__ = ['CommandParser']
+__all__ = ['CommandParser', 'CommandExecutor']
