@@ -1,0 +1,27 @@
+---
+description: Follow these rules when planning new feature implementation
+globs: 
+alwaysApply: false
+---
+These are preferred approaches and libraries for this project.
+
+## Tools
+
+- use the pillow module (Python Image Library) to handle image files 
+- use json for serialization (i.e., transforming a data structure or class into a
+text representation on a file)
+- use the re module for the command language
+- use the math module if it simplifies the implementation
+
+
+## Converting to Grayscale
+Transforming pixel images into ASCII art is easier when color images are converted to grayscale. 
+This can be done simply with the following conversion instruction: new_img = img . convert ( mode ='L ')
+
+
+## Pixels
+By reading the grayscale level of an image point, a pixel, you obtain a numerical value that can be converted into a character.
+pos = (x , y )
+grey = img . getpixel ( pos )
+
+Note that the getpixel method takes a single argument, which should be a tuple. In the example above, 𝑥 and 𝑦 are the coordinates of a point in the image.

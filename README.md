@@ -1,9 +1,59 @@
-ASCII is a character encoding introduced in the 1960s and is still in use today. 
+# ASCII Art Studio
 
-The principle of ASCII art is that completely white pixels are represented by a space, black by a character with "a lot of ink," such as #, and grayscale levels are conveyed using other characters.
+A command-line application that converts images to ASCII art.
 
-ASCII Art Studio allows users to interactively experiment with the art form and automatically render image files into ASCII. 
+## Features
 
-The program can read image formats such as JPG and PNG. 
+- Load image files and convert them to ASCII art
+- Render ASCII art with a fixed width of 50 characters
+- Display information about the loaded image
+- Simple command-line interface
 
-Using a simple command language, users are able to manage multiple images simultaneously, adjust contrast and exposure, and experiment with different output sizes.
+## Requirements
+
+- Python 3.6+
+- Pillow (Python Imaging Library)
+
+## Installation
+
+1. Clone this repository:
+   ```
+   git clone https://github.com/your-username/ascii-art-studio.git
+   cd ascii-art-studio
+   ```
+
+2. Install the required dependencies:
+   ```
+   pip install -r requirements.txt
+   ```
+
+## Usage
+
+Run the application:
+```
+python ascii_art_studio.py
+```
+
+### Commands
+
+- `load filename`: Load an image file
+- `render`: Display ASCII art for the current image
+- `info`: Show information about the current image
+- `quit`: Exit the application
+
+## Example
+
+```
+Welcome to ASCII Art Studio!
+AAS: load example.jpg
+AAS: render
+       .....::::ijjjjxxxxoooOhhhhXXXX%@@@@########
+       .....::::ijjjjxxxxoooOhhhhXXXX%@@@@########
+       .....::::ijjjjxxxxoooOhhhhXXXX%@@@@########
+       ...
+AAS: info
+File: example.jpg
+Size: 640x480
+AAS: quit
+Bye!
+```
