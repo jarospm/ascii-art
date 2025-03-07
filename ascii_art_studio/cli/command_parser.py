@@ -6,8 +6,7 @@ class CommandParser:
     """
     Parser for ASCII Art Studio commands using regular expressions.
     
-    This class provides functionality to parse and validate user input commands
-    for the ASCII Art Studio application.
+    This class provides functionality to parse and validate user input commands.
     """
     
     # Command patterns
@@ -36,9 +35,7 @@ class CommandParser:
             
         Returns:
             A tuple containing (command_type, arguments_dict)
-            
-        Raises:
-            ValueError: If the command is not recognized
+            where command_type is 'unknown' if the command is not recognized
         """
         # Strip whitespace and normalize
         command_str = command_str.strip().lower()

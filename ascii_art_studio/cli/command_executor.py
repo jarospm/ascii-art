@@ -7,10 +7,8 @@ This module handles executing commands parsed by the command parser.
 import os
 from typing import Dict, Any, Optional, Tuple
 
-from ascii_art_studio.core.image_processor import ImageProcessor
-from ascii_art_studio.core.ascii_converter import AsciiConverter
-from ascii_art_studio.core.renderer import AsciiRenderer
-from ascii_art_studio.cli.command_parser import CommandParser
+from ascii_art_studio.core import ImageProcessor, AsciiConverter, AsciiRenderer
+from .command_parser import CommandParser
 
 
 class CommandExecutor:

@@ -6,7 +6,7 @@ This module serves as the main entry point for the application.
 """
 
 import sys
-from ascii_art_studio.cli.command_executor import CommandExecutor
+from ascii_art_studio.cli import CommandExecutor
 
 
 def print_welcome():
