@@ -2,101 +2,60 @@
 
 A command-line tool for converting images to ASCII art.
 
-## Features
+## How to Use
 
-- Load image files and convert them to ASCII art
-- Render ASCII art with a fixed width of 50 characters
-- Display information about the loaded image
-- Simple command-line interface
-
-## Requirements
-
-- Python 3.6+
-- Pillow (Python Imaging Library)
-
-## Installation
-
-### From Source
-
-1. Clone the repository
-2. Install the package in development mode:
-
+1. Start the program:
 ```bash
-pip install -e .
-```
-
-## Usage
-
-```bash
-# Run the application
 ascii-art-studio
 ```
 
-## Project Structure
-
+2. Basic commands:
 ```
-ascii-art-studio/
-├── ascii_art_studio/        # Main package directory
-│   ├── __init__.py
-│   ├── __main__.py          # Entry point
-│   ├── ascii_art_studio.py  # Main application
-│   ├── core/                # Core functionality
-│   │   ├── __init__.py
-│   │   ├── ascii_converter.py
-│   │   ├── image_processor.py
-│   │   └── renderer.py
-│   ├── cli/                 # Command-line interface
-│   │   ├── __init__.py
-│   │   ├── command_executor.py
-│   │   └── command_parser.py
-│   └── utils/               # Utility functions
-│       └── __init__.py
-├── examples/                # Example scripts
-│   └── demo_renderer.py
-├── tests/                   # Unit tests
-│   ├── __init__.py
-│   ├── test_ascii_converter.py
-│   ├── test_renderer.py
-│   └── test_images/         # Test images
-│       ├── chimplie_logo.png
-│       └── Mmm.png
-├── implementation/          # Implementation plan
-│   └── v1.md
-├── specs/                   # Specifications
-├── setup.py                 # Package setup script
-├── requirements.txt         # Package dependencies
-└── README.md                # This file
+AAS: load <image_file>   # Load an image
+AAS: render              # Convert and display ASCII art
+AAS: info                # Display information about loaded image
+AAS: quit                # Exit the program
 ```
 
-## Development
+## Installation
 
-### Dependencies
+### Required Libraries
+- Python 3.6+
+- Pillow (Python Imaging Library)
 
-Install the development dependencies:
-
+### Installing
 ```bash
+# Clone the repository
+git clone https://github.com/yourusername/ascii-art-studio.git
+cd ascii-art-studio
+
+# Install dependencies
 pip install -r requirements.txt
+
+# Install the package
+pip install -e .
 ```
 
-### Running Tests
+## Program Structure
 
-```bash
-python -m unittest discover -s tests
-```
+- `ascii_art_studio/`: Main package
+  - `__main__.py`: Entry point for running the application
+  - `ascii_art_studio.py`: Main application logic
+  - `core/`: Core functionality
+    - `ascii_converter.py`: Converts images to ASCII characters
+    - `image_processor.py`: Handles image loading and processing
+    - `renderer.py`: Renders ASCII art to the console
+  - `cli/`: Command-line interface
+    - `command_executor.py`: Executes user commands
+    - `command_parser.py`: Parses command-line input
+  - `utils/`: Utility functions
 
-### Running Examples
-
-```bash
-python -m examples.demo_renderer
-```
-
-## Example
+## Example Output
 
 ```
 Welcome to ASCII Art Studio!
 AAS: load example.jpg
 AAS: render
-       .....::::ijjjjxxxxoooOhhhhXXXX%@@@@########
        .....::::ijjjjxxxxoooOhhhhXXXX%@@@@########
        .....::::ijjjjxxxxoooOhhhhXXXX%@@@@########
        ...

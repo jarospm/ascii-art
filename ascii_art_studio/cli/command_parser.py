@@ -11,7 +11,7 @@ class CommandParser:
     
     # Command patterns
     LOAD_PATTERN = r'^load\s+(?P<filename>.+)$'
-    RENDER_PATTERN = r'^render(?:\s+(?P<width>\d+))?(?:\s+(?P<charset>[^\d]\S*))?$'
+    RENDER_PATTERN = r'^render$'
     INFO_PATTERN = r'^info$'
     QUIT_PATTERN = r'^(quit|exit)$'
     HELP_PATTERN = r'^help(?:\s+(?P<command>\S+))?$'
@@ -49,11 +49,6 @@ class CommandParser:
             if match:
                 # Extract named groups as arguments
                 args = {k: v for k, v in match.groupdict().items() if v is not None}
-                
-                # Convert width to int if present
-                if cmd_type == 'render' and 'width' in args:
-                    args['width'] = int(args['width'])
-                
                 return cmd_type, args
         
         # If no patterns match, it's an unknown command
@@ -71,7 +66,7 @@ class CommandParser:
         """
         help_texts = {
             'load': "load <filename> - Load an image file for conversion",
-            'render': "render [width] [charset] - Convert the loaded image to ASCII art",
+            'render': "render - Convert the loaded image to ASCII art with fixed width (50px)",
             'info': "info - Display information about the currently loaded image",
             'quit': "quit or exit - Exit the application",
             'help': "help [command] - Display help information"

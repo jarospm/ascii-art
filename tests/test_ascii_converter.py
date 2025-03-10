@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """
 Test file for the ASCII converter module of ASCII Art Studio.
 
@@ -6,64 +5,53 @@ This script tests the functionality of the AsciiConverter class.
 """
 
 import unittest
-from ascii_art_studio.core.image_processor import ImageProcessor
+import os
 from ascii_art_studio.core.ascii_converter import AsciiConverter
+from ascii_art_studio.core.image_processor import ImageProcessor
 
-def main():
-    """Test the ASCII converter functionality."""
-    # Initialize the image processor and ASCII converter
-    img_processor = ImageProcessor()
-    ascii_converter = AsciiConverter()
 
-    # Print available character sets
-    print("Available character sets:")
-    char_sets = ascii_converter.get_available_char_sets()
-    for name, chars in char_sets.items():
-        print(f"  - {name}: {chars}")
+class TestAsciiConverter(unittest.TestCase):
+    """Test cases for the AsciiConverter class."""
+
+    def setUp(self):
+        """Set up test environment."""
+        # Create a new converter with default settings
+        self.converter = AsciiConverter()
+        
+        # Set up image processor with a test image
+        self.image_proc = ImageProcessor()
+        self.test_dir = os.path.join("tests", "test_images")
+        self.test_image = os.path.join(self.test_dir, "girl.jpg")
+        
+        # Load the test image
+        self.image_proc.load_image(self.test_image)
     
-    # Test with an image if available
-    image_path = "chimplie_logo.png"  # Using the image found in the project directory
-    
-    try:
-        # Try to load the image
-        img_processor.load_image(image_path)
-        print(f"\nLoaded image: {image_path}")
+    def test_pixel_to_ascii_conversion(self):
+        """Test converting different pixel values to ASCII characters."""
+        # Black pixel (0) should map to the first character
+        self.assertEqual(self.converter.pixel_to_ascii(0), AsciiConverter.DEFAULT_CHAR_SET[0])
         
-        # Get and print image info
-        info = img_processor.get_image_info()
-        print(f"Image dimensions: {info['width']}x{info['height']}")
+        # White pixel (255) should map to the last character
+        self.assertEqual(self.converter.pixel_to_ascii(255), AsciiConverter.DEFAULT_CHAR_SET[-1])
         
-        # Convert to ASCII with default character set
-        print("\nConverting to ASCII with default character set...")
-        width = min(100, info['width'])  # Limit width to 100 characters
-        ascii_art = ascii_converter.convert_image(img_processor, width=width)
-        
-        # Print the full ASCII art
-        print("\nFull ASCII Art:")
-        for line in ascii_art:
-            print(line)
-        
-        # Test with inverted character set
-        print("\nConverting with inverted character set...")
-        ascii_converter.set_char_set(ascii_converter.DEFAULT_CHAR_SET, inverted=True)
-        inverted_ascii_art = ascii_converter.convert_image(img_processor, width=width)
-        
-        print("\nFull Inverted ASCII Art:")
-        for line in inverted_ascii_art:
-            print(line)
-            
-        # Test with extended character set
-        print("\nConverting with extended character set...")
-        ascii_converter.set_char_set(ascii_converter.EXTENDED_CHAR_SET)
-        extended_ascii_art = ascii_converter.convert_image(img_processor, width=width)
-        
-        print("\nFull Extended ASCII Art:")
-        for line in extended_ascii_art:
-            print(line)
-        
-    except Exception as e:
-        print(f"Error: {str(e)}")
-        print("Test could not be completed due to the error.")
+        # Gray pixel (128) should map to a middle character
+        gray_result = self.converter.pixel_to_ascii(128)
+        self.assertEqual(len(gray_result), 1)
+        self.assertEqual(type(gray_result), str)
 
-if __name__ == "__main__":
-    main() 
+    def test_image_conversion(self):
+        """Test converting an image to ASCII art."""
+        # Convert the image with a specific width
+        ascii_art = self.converter.convert_image(self.image_proc, width=40)
+        
+        # Check basic properties of the result
+        self.assertEqual(type(ascii_art), list)
+        
+        # Check the first row is a string with expected width
+        if ascii_art:  # In case the list is empty
+            self.assertEqual(len(ascii_art[0]), 40)
+            self.assertEqual(type(ascii_art[0]), str)
+
+
+if __name__ == '__main__':
+    unittest.main() 

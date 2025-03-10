@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """
 ASCII Art Studio - A command-line application to convert images to ASCII art.
 
@@ -34,37 +33,25 @@ def main():
     executor = CommandExecutor()
     prompt = "AAS> "
     
-    # Register signal handler for graceful exit on Ctrl+C
-    try:
-        # Main command loop
-        while executor.is_running:
-            try:
-                # Get user input
-                command = input(prompt)
+    # Main command loop
+    while executor.is_running:
+        try:
+            # Get user input and execute command
+            command = input(prompt)
+            result = executor.execute_command(command)
+            
+            # Print the result if any
+            if result:
+                print(result)
                 
-                # Execute the command
-                result = executor.execute_command(command)
-                
-                # Print the result
-                if result:
-                    print(result)
-                    
-            except EOFError:
-                # Handle Ctrl+D (EOF)
-                print("\nUse 'quit' or 'exit' to exit the application.")
-            except KeyboardInterrupt:
-                # Handle Ctrl+C
-                print("\nInterrupted. Use 'quit' or 'exit' to exit the application.")
-            except Exception as e:
-                # Handle any other exceptions
-                print(f"Error: {str(e)}")
-    
-    except Exception as e:
-        print(f"Fatal error: {str(e)}")
-        return 1
-        
-    return 0
+        except KeyboardInterrupt:
+            # Simple handler for Ctrl+C
+            print("\nTo exit the application, type 'quit' or 'exit'")
+            
+        except Exception as e:
+            # Simple catch-all for any other errors
+            print(f"Error: {str(e)}")
 
 
 if __name__ == "__main__":
-    sys.exit(main()) 
+    main() 

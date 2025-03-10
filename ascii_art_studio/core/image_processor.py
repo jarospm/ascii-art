@@ -1,12 +1,12 @@
-#!/usr/bin/env python3
 """
 Image processor module for ASCII Art Studio.
 
 This module handles loading and processing images for conversion to ASCII art.
 """
 
-from PIL import Image, UnidentifiedImageError
 import os
+from PIL import Image
+from typing import Dict, Tuple, Optional, Any
 
 
 class ImageProcessor:
@@ -17,7 +17,7 @@ class ImageProcessor:
         self.current_image = None
         self.filename = None
 
-    def load_image(self, filename):
+    def load_image(self, filename: str) -> Tuple[bool, Optional[str]]:
         """
         Load an image from a file.
 
@@ -25,31 +25,29 @@ class ImageProcessor:
             filename (str): Path to the image file.
 
         Returns:
-            bool: True if the image was loaded successfully, False otherwise.
-
-        Raises:
-            FileNotFoundError: If the file does not exist.
-            UnidentifiedImageError: If the file is not a valid image.
-            Exception: For other errors during image loading.
+            Tuple[bool, Optional[str]]: A tuple containing:
+                - bool: True if the image was loaded successfully, False otherwise
+                - Optional[str]: None on success, error message on failure
         """
         try:
+            # Check for None or empty filename
+            if not filename:
+                return False, "No filename provided"
+                
+            # Check if file exists
             if not os.path.exists(filename):
-                raise FileNotFoundError(f"File not found: {filename}")
+                return False, f"File not found: {filename}"
 
-            # Load the image and convert to grayscale
+            # Try to load the image and convert to grayscale
             image = Image.open(filename)
             self.current_image = image.convert(mode='L')
             self.filename = filename
-            return True
+            return True, None
 
-        except FileNotFoundError as e:
-            raise e
-        except UnidentifiedImageError:
-            raise UnidentifiedImageError(f"Cannot identify image file: {filename}")
         except Exception as e:
-            raise Exception(f"Error loading image: {str(e)}")
+            return False, f"Error loading image: {str(e)}"
 
-    def get_image_info(self):
+    def get_image_info(self) -> Optional[Dict[str, Any]]:
         """
         Get information about the current image.
 
@@ -63,10 +61,9 @@ class ImageProcessor:
             "filename": self.filename,
             "width": self.current_image.width,
             "height": self.current_image.height,
-            "format": self.current_image.format
         }
 
-    def get_pixel(self, x, y):
+    def get_pixel(self, x: int, y: int) -> Optional[int]:
         """
         Get the grayscale value of a pixel.
 
@@ -76,6 +73,8 @@ class ImageProcessor:
 
         Returns:
             int: Grayscale value (0-255) or None if no image is loaded.
+                0  = black
+                255 = white
         """
         if self.current_image is None:
             return None
@@ -86,7 +85,7 @@ class ImageProcessor:
         pos = (x, y)
         return self.current_image.getpixel(pos)
 
-    def get_image_dimensions(self):
+    def get_image_dimensions(self) -> Optional[Tuple[int, int]]:
         """
         Get the dimensions of the current image.
 
@@ -98,7 +97,7 @@ class ImageProcessor:
 
         return (self.current_image.width, self.current_image.height)
 
-    def is_image_loaded(self):
+    def is_image_loaded(self) -> bool:
         """
         Check if an image is currently loaded.
 

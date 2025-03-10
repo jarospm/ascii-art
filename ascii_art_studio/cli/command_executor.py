@@ -4,10 +4,9 @@ Command executor module for ASCII Art Studio.
 This module handles executing commands parsed by the command parser.
 """
 
-import os
-from typing import Dict, Any, Optional, Tuple
+from typing import Dict, Any
 
-from ascii_art_studio.core import ImageProcessor, AsciiConverter, AsciiRenderer
+from ascii_art_studio.core import ImageProcessor, AsciiConverter
 from .command_parser import CommandParser
 
 
@@ -21,10 +20,9 @@ class CommandExecutor:
     """
     
     def __init__(self):
-        """Initialize the command executor with necessary components."""
+        """Initialize the command executor with required components."""
         self.image_processor = ImageProcessor()
         self.ascii_converter = AsciiConverter()
-        self.renderer = AsciiRenderer()
         self.parser = CommandParser()
         self.is_running = True
         
@@ -38,6 +36,8 @@ class CommandExecutor:
         Returns:
             A string containing the command output or error message
         """
+
+        # Unpack the command and arguments from the parser return value
         cmd_type, args = self.parser.parse_command(command_str)
         
         # Call the appropriate method based on the command type
@@ -67,13 +67,11 @@ class CommandExecutor:
         """
         filename = args.get('filename')
         
-        try:
-            if self.image_processor.load_image(filename):
-                return f"Successfully loaded image: {filename}"
-            else:
-                return f"Failed to load image: {filename}"
-        except Exception as e:
-            return f"Error loading image: {str(e)}"
+        success, error_message = self.image_processor.load_image(filename)
+        if success:
+            return f"Successfully loaded image: {filename}"
+        else:
+            return f"Failed to load image: {filename}. Reason: {error_message}"
     
     def _execute_render(self, args: Dict[str, Any]) -> str:
         """
@@ -88,31 +86,15 @@ class CommandExecutor:
         if not self.image_processor.is_image_loaded():
             return "No image is currently loaded. Use 'load <filename>' to load an image."
         
-        width = args.get('width')
-        charset = args.get('charset')
-        
-        # Set the character set if specified
-        if charset:
-            char_sets = self.ascii_converter.get_available_char_sets()
-            if charset in char_sets:
-                self.ascii_converter.set_char_set(char_sets[charset])
-            else:
-                # If not a predefined set, use the string directly as a custom charset
-                self.ascii_converter.set_char_set(charset)
-        
-        # Set the width if specified
-        if width:
-            self.renderer.set_dimensions(width=width)
-        
         try:
-            # Convert the image to ASCII art
+            # Convert the image to ASCII art with fixed width of 50
             ascii_rows = self.ascii_converter.convert_image(
                 self.image_processor, 
-                width=self.renderer.width
+                width=50  # Fixed width
             )
             
-            # Return the rendered ASCII art
-            return self.renderer.render_to_string(ascii_rows)
+            # Return the rendered ASCII art using the converter
+            return self.ascii_converter.render_to_string(ascii_rows)
         except Exception as e:
             return f"Error rendering image: {str(e)}"
     
@@ -134,9 +116,7 @@ class CommandExecutor:
         # Format the information
         lines = [
             f"Filename: {info['filename']}",
-            f"Dimensions: {info['width']}x{info['height']} pixels",
-            f"Format: {info['format']}",
-            f"Mode: {info['mode']}"
+            f"Dimensions: {info['width']}x{info['height']} pixels"
         ]
         
         return "\n".join(lines)
@@ -189,5 +169,5 @@ class CommandExecutor:
         Returns:
             An error message for unknown commands
         """
-        user_input = args.get('input', 'Unknown command')
+        user_input = args.get('input')
         return f"Unknown command: '{user_input}'. Type 'help' for a list of available commands." 
